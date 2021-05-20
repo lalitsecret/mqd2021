@@ -1,0 +1,55 @@
+.home-flex
+{
+	display: flex;
+	padding: 10%;
+}
+.home-flex .left,
+.home-flex .right
+{
+	width: 43%;
+	box-shadow:0 0 5px silver;
+	padding: 2.5%;
+	margin:1%;
+}
+.home-flex .form-group
+{
+	margin-bottom: 20px;
+}
+.home-flex .icon
+{
+	text-align: center;
+}
+.home-flex .flex
+{
+	display: flex;
+}
+
+.home-flex .flex input
+{
+	width: 100%;
+	padding: 10px;
+	border:0;
+	background: #f1f1f1;
+}
+
+.home-flex .flex select
+{
+	padding: 10px;
+	border:0;
+	background: #f1f1f1;
+	width: 70%;
+	margin-right: 2%;
+}
+.home-flex .flex button.btn-circle
+{
+	margin-left: 5%;
+}
+.home-flex .flex 
+{
+	justify-content: space-between;
+}
+.home-flex .right .btn-circle
+{
+	display: block;
+	margin:auto;
+}

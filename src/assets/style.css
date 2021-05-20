@@ -1,0 +1,47 @@
+body
+{
+	margin:0;
+	font-family: calibri;
+}
+
+
+/*buttons style starts*/
+button
+{
+	background: orange;
+	color:white;
+	padding: 10px;
+	border:0;
+	text-align: center;
+}
+button.btn-circle
+{
+	border-radius: 100px;
+	padding: 10px 40px;
+}
+
+/*buttons style ends*/
+
+/*input style starts*/
+input.form-control
+{
+	width:100%;
+	padding: 10px;
+	box-sizing: border-box;
+	border-radius: 10px;
+	border:0.5px solid grey;
+	margin-top: 4px;
+}
+input.form-control.input-radius
+{
+	border-radius: 0;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+input.form-control.input-bg
+{
+		background: #f1f1f1;
+		border:0;
+}
+
+/*input style ends*/

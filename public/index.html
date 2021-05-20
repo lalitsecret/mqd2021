@@ -1,0 +1,51 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+<div id="root"></div>
+
+
+
+	  <script type="text/javascript" src="./libs/raphael-min.2.0.1.js"></script>
+	  <script type="text/javascript" src="./libs/kekule/kekule.js?modules=chemWidget,algorithm&locals=en,zh"></script>
+	  <link rel="stylesheet" type="text/css" href="libs/kekule/themes/default/kekule.css" />
+
+	  <script type="text/javascript" src="./src/kekule.js?modules=chemWidget,algorithm&min=false"></script>
+	  <link type="text/css" rel="stylesheet"   href="./src/widgets/themes/default/kekule.css" />
+ 
+
+	<style>
+	 
+	  #chemComposer
+	  {
+	  }
+	</style>
+	<script>
+	  	var chemEditor;
+	  	var chemComposer;
+	  	function init()
+	  	{
+	  	  
+	  	  var elem = document.getElementById('chemComposer');
+	  	  var chemEditor = new Kekule.Editor.ChemSpaceEditor(document, null, Kekule.Render.RendererType.R2D);
+	  	  chemComposer = new Kekule.Editor.Composer(elem, chemEditor);
+	  	  
+	  	  // chemComposer = Kekule.Widget.getWidgetById('chemComposer');
+	  	  // chemComposer
+	  	  //   .setEnableDimensionTransform(true)
+	  	  //   .setAutoSetMinDimension(true)
+	  	  //   .setAutoResizeConstraints({width: 1, height: 1})
+	  	  //   .autoResizeToClient();  // force a resize to window client
+	  	}
+	  	Kekule.X.domReady(init);
+	</script>
+	<div id="may20">
+		
+	</div>
+<!-- <math-field id="mf" virtual-keyboard-mode="manual">f(x)=</math-field>
+<div id="output"></div> -->
+<!-- <script type="module">
+// import { makeMathField } from '/dist/mathlive.mjs';
+import {makeMathField} from 'https://unpkg.com/mathlive/dist/mathlive.min.mjs';
+document.getElementById('mf').addEventListener('input', (ev) => {
+    document.getElementById('output').innerHTML = ev.target.getValue();
+});
+</script> -->

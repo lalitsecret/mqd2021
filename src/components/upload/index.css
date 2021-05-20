@@ -1,0 +1,139 @@
+.upload-flex
+{
+	position: relative;
+	/*display: flex;*/
+}
+.upload-flex .title
+{
+	padding: 10px;
+	background: orange;
+	color:white;
+}
+ 
+.upload-flex .image
+{
+	margin-top: 20px;
+	position: relative;
+}
+.upload-flex .image img
+{
+	width: 100%;
+}
+.upload-flex .image .overlay
+{
+	position: absolute;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.7);
+}
+
+.upload-flex .image .note
+{
+	position: absolute;
+	top:20%;
+	right: 0;
+	padding: 10px;
+	background: white;
+	color:orange;
+	font-weight: bold;
+	transform: translateX(50%);
+	box-shadow:0 0 10px black;
+	padding: 10px 40px;
+	border-radius:100px;
+}
+.upload-flex .crop
+{
+	position: absolute;
+	bottom:0;
+	right:0;
+	padding: 10px;
+	border-radius: 100px;
+	background: orange;
+	color:white;
+	margin:20px;
+	font-size: 200%;
+}
+.upload-flex .annotation
+{
+	position: absolute;
+	bottom:0;
+	left:0;
+	padding: 10px;
+	border-radius: 100px;
+	background: white;
+	color:orange;
+	margin:-10px;
+	box-shadow:0 0 10px black;
+}
+
+.upload-flex .form-group
+{
+	margin-top: 50px;
+}
+
+.upload-flex .form-flex
+{
+	display: flex;
+}
+.upload-flex .form-flex .item
+{
+	margin-right: 50px;
+	width: 30%;	
+}
+.upload-flex .form-flex select
+{
+	width: 100%;
+	padding: 10px;
+}
+.upload-flex .form-flex label
+{
+	font-weight: bold;
+	margin-bottom: 5px;
+	display: block;
+}
+
+.upload-flex .equation
+{
+	padding: 10px;
+	border:1px solid silver;
+	position: relative;
+	margin-top: 20px;
+}
+.upload-flex .equation img
+{
+}
+.upload-flex .equation .edit
+{
+	position: absolute;
+	top:0;
+	right: 0;
+	padding: 10px;
+	color:orange;
+}	
+.upload-flex .actions
+{
+	margin-top: 50px;
+	padding: 10px;
+	text-align: center;
+	position: relative;
+}
+.upload-flex .actions *
+{
+	margin:10px;
+}
+.upload-flex .actions .fa
+{
+	width: 40px;
+	line-height: 40px;
+	color:orange;
+	border:1px solid orange;
+	border-radius: 100px;
+}
+.upload-flex .actions img
+{
+	position: absolute;
+	right:0;
+	transform: translateY(-10%);
+}

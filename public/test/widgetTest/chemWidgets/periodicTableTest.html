@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Periodic Table Test</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="../../../src/widgets/themes/default/default.css" />
+	<link rel="stylesheet" type="text/css" href="../../../src/widgets/themes/default/defaultColor.css" />
+	<link rel="stylesheet" type="text/css" href="../../../src/widgets/themes/default/chemWidget.css" />
+	<link rel="stylesheet" type="text/css" href="../../../src/widgets/themes/default/chemWidgetColor.css" />
+	<script src="../../../src/kekule.js?min=false"></script>
+	<script>
+		var periodicTable;
+		function init()
+		{
+			periodicTable = Kekule.Widget.getWidgetById('periodicTable1');
+		}
+		Kekule.X.domReady(init);
+	</script>
+	<style>
+
+	</style>
+</head>
+<body>
+	<div id="periodicTable1" data-widget="Kekule.ChemWidget.PeriodicTable"></div>
+</body>
+</html>

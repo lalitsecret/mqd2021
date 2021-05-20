@@ -1,0 +1,18 @@
+
+
+.tutorial-container 
+{
+	padding:10% 5%;
+}
+.tutorial-container .video
+{
+	border:1px solid silver;
+	padding: 10px;
+	text-align: center;
+
+}
+.tutorial-container .video video
+{
+	padding: 10px;
+	box-shadow:0 0 3px silver;
+}

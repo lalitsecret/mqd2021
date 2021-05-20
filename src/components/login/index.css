@@ -1,0 +1,74 @@
+.container-login
+{
+	background: url("/assets/banner-bg.jpg");
+	background-size: cover;
+	background-attachment: fixed;
+	padding: 10%;
+}
+
+.container-login .login-form
+{
+	background: white;
+	display: flex;
+	box-shadow:0 0 40px black;
+}
+.container-login .login-form .left,
+.container-login .login-form .right
+{
+	padding: 2%;
+}
+
+.container-login .login-form .right .form-group
+{
+	margin-bottom: 10px;
+}
+.container-login .login-form .text-right
+{
+	text-align: right;
+}
+.container-login .login-form .text-right a
+{
+	color:orange;
+	font-weight: bold;
+	text-decoration: none;
+}
+.container-login .login-form .form-checkbox
+{
+	padding: 10px;
+}
+.container-login .login-form .form-button button
+{
+	width:80%;
+}
+.container-login .login-form .form-or
+{
+	text-align: center;
+}
+.container-login .login-form .form-google
+{
+	text-align: center;
+}
+.container-login .login-form .form-new-user
+{
+	text-align: center;
+}
+
+.container-signup .login-form .form-new-user a
+{
+	color:black;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+
+@media (max-width:768px)
+{
+	.container-login .login-form .left img
+	{
+		width:100%;
+	}
+	.container-login .login-form
+	{
+		flex-flow: column;
+	}
+}

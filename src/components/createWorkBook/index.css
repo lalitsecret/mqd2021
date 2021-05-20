@@ -1,0 +1,71 @@
+
+
+.create-workbook
+{
+	padding:10% 5%;
+}
+
+.create-workbook-inner label
+{
+	font-weight: bold;
+	display: block;
+	margin-bottom: 5px;
+}
+.create-workbook-inner .line1
+{
+	padding: 10px;
+	border:1px solid silver;
+	display: flex;
+	justify-content: space-between;
+}
+.create-workbook-inner .line1 div
+{
+	padding: 10px;
+	width: 33.3%;
+}
+.create-workbook-inner .line1 div input
+{
+	border:1px solid silver;
+	padding: 10px;
+	width: 100%;
+}
+.create-workbook-inner .line2
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.create-workbook-inner .line2 textarea
+{
+	width: 100%;
+	border:1px solid silver;
+}
+.create-workbook-inner .line3
+{
+	width: 40%;
+}
+.create-workbook-inner .line3 .flex
+{
+	display: flex;
+	justify-content: space-between;
+}
+.create-workbook-inner .line3 .flex .left
+{
+
+}
+.create-workbook-inner .line3 .flex .left input
+{
+	padding: 10px;
+	border:1px solid silver;
+}
+.create-workbook-inner .line3 .flex .left button
+{
+	border:1px solid orange;
+}
+.create-workbook-inner .line3 .flex .right 
+{
+
+}
+.create-workbook-inner .line3 .flex .right button
+{
+
+}

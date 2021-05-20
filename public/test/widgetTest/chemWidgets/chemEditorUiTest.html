@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Chem Editor UI Test</title>
+
+  <!--
+  <script src="../../../src/lib/hammer.js/hammer.min.js"></script>
+  <script src="../../../src/lib/hammer.js/touch-emulator.js"></script>
+  <script> TouchEmulator(); </script>
+  -->
+
+  <script src="../../_libs/raphael-min.2.0.1.js"></script>
+  <!--
+  <script src="https://unpkg.com/kekule/dist/kekule.js?locals=en,zh&language=en&modules=chemWidget,algorithm,indigo"></script>
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/kekule/dist/themes/default/kekule.css" />
+  -->
+
+  <script src="../../../src/kekule.js?min=false&locals=en,zh&language=en&modules=chemWidget,algorithm,calculation,openbabel,indigo"></script>
+  <link rel="stylesheet" type="text/css" href="../../../src/widgets/themes/default/kekule.css" />
+
+
+  <!--
+  <script src="../../../dist/kekule.js?locals=en,zh&language=zh"></script>
+  <link rel="stylesheet" type="text/css" href="../../../dist/themes/default/kekule.css" />
+  -->
+  <!--
+  <link rel="stylesheet" type="text/css" href="../../../src/widgets/themes/default/release/default.css" />
+  <link rel="stylesheet" type="text/css" href="../../../src/widgets/themes/default/release/defaultColor.css" />
+  <link rel="stylesheet" type="text/css" href="../../../src/widgets/themes/default/release/chemWidget.css" />
+  <link rel="stylesheet" type="text/css" href="../../../src/widgets/themes/default/release/chemWidgetColor.css" />
+  -->
+
+  <script>
+
+    BNS = Kekule.ChemWidget.ComponentWidgetNames;
+    /*
+    Kekule.globalOptions.chemWidget.composer.commonToolButtons = [
+      BNS.newDoc,
+      BNS.loadData,
+      BNS.saveData,
+      BNS.undo,
+      BNS.redo,
+      BNS.zoomIn,
+      BNS.reset,
+      BNS.zoomOut,
+      BNS.config,
+      BNS.objInspector
+    ];
+    */
+
+    var EMC = Kekule.Editor.ObjModifier.Category;
+    var SM = Kekule.ObjPropSettingManager;
+    // overwrite molOnly setting of composer
+    SM.register('Kekule.Editor.Composer.molOnly', {  // composer that can only edit molecule
+	    //enableStyleToolbar: true,
+	    enableObjModifierToolbar: true,
+	    enableOperHistor: true,
+	    enableLoadNewFile: true,
+	    enableCreateNewDoc: true,
+	    allowCreateNewChild: true,
+	    commonToolButtons: [
+		    BNS.newDoc,
+		    BNS.loadData,
+		    BNS.saveData,
+		    BNS.undo,
+		    BNS.redo,
+		    BNS.zoomIn,
+		    BNS.zoomOut,
+		    BNS.issueInspector
+	    ],
+	    chemToolButtons: [
+		    BNS.manipulate,
+		    BNS.erase,
+		    {'name': BNS.molBond, 'attached': [
+				    BNS.molBondSingle, BNS.molBondDouble, BNS.molBondTriple,
+				    /*BNS.molBondCloser,*/ BNS.molBondWedgeUp, BNS.molBondWedgeDown,
+				    BNS.molChain,
+				    BNS.trackInput,
+				    /*
+						BNS.molRepSubBondMark,
+						BNS.molRepMethane,
+						*/
+				    BNS.molRepFischer1, BNS.molRepFischer2,
+				    BNS.molRepSawhorseStaggered, BNS.molRepSawhorseEclipsed
+			    ]},
+		    BNS.molAtom,
+		    /*BNS.molFormula,*/
+		    {'name': BNS.molRing, 'attached': [
+				    BNS.molRing3, BNS.molRing4, BNS.molRing5, BNS.molRing6,
+				    BNS.molFlexRing,
+				    BNS.molRingAr6,
+				    BNS.molRepCyclopentaneHaworth1, /* BNS.molRepCyclopentaneHaworth2,*/
+				    BNS.molRepCyclohexaneHaworth1, /* BNS.molRepCyclohexaneHaworth2, */
+				    BNS.molRepCyclohexaneChair1, BNS.molRepCyclohexaneChair2
+			    ]},
+			    //BNS.molCharge
+			    {
+				    'name': BNS.molCharge, 'attached': [
+					    BNS.molChargeClear, BNS.molChargePositive, BNS.molChargeNegative,
+					    BNS.molRadicalDoublet, BNS.molElectronLonePair
+				    ]
+			    }
+	    ],   // create only chem tool buttons related with molecule
+	    styleToolComponentNames: null,  // create all default style components
+	    allowedObjModifierCategories: [EMC.GENERAL, EMC.CHEM_STRUCTURE]  // only all chem structure modifiers
+    });
+
+    var chemEditor;
+    var chemEditorUi;
+    var operHistoryView;
+    function init()
+    {
+      var elem = document.getElementById('chemEditorUi');
+      chemEditor = new Kekule.Editor.ChemSpaceEditor(document, null, Kekule.Render.RendererType.R2D);
+      chemEditor.setInitialZoom(1.5);
+      //chemEditor = null;
+      //chemEditor.setEnableOperContext(false);
+      chemEditorUi = new Kekule.Editor.Composer(elem, chemEditor);
+      var toolButtons = chemEditorUi.getDefaultCommonToolBarButtons();
+      toolButtons.push(BNS.issueInspector);
+      toolButtons.push({'text': 'View Obj', 'showText': true, '#execute': openObjInViewer});
+      toolButtons.push({'text': 'View Doc', 'showText': true, '#execute': openDocInViewer});
+      //toolButtons.push({'widget': 'Kekule.Widget.CheckButton', 'text': 'Custom CheckButton'});
+      //toolButtons.push({'text': 'Set Btn', 'showText': true, '#execute': setCustomChemButtons});
+      //toolButtons.push({'text': 'Set Btn2', 'showText': true, '#execute': setCustomChemButtons2});
+      toolButtons.push({'text': 'FF', 'showText': true, '#execute': requestFullScreen});
+      chemEditorUi.setCommonToolButtons(toolButtons);
+
+
+      chemEditorUi.setChemToolButtons([
+        BNS.manipulate,
+        BNS.erase,
+        //BNS.trackInput,
+        BNS.molBond,
+        /*
+        {'name': BNS.molBond, 'attached': [
+          BNS.molBondTriple,
+          BNS.molBondSingle, BNS.molBondDouble, // BNS.molBondTriple,
+          BNS.molBondWedgeUp, BNS.molBondWedgeDown,
+          BNS.molChain,
+          BNS.trackInput,
+          BNS.molRepFischer1, BNS.molRepFischer2,
+          BNS.molRepSawhorseStaggered,
+          BNS.molRepSawhorseEclipsed
+        ]},
+        */
+        BNS.molAtomAndFormula,
+        BNS.molRing,
+        BNS.molCharge,
+        BNS.glyph,
+        BNS.textImage
+      ]);
+
+      chemEditorUi.on('load', function(e){
+        console.log('Obj loaded', e);
+      });
+      chemEditorUi.on('editObjsChanged1', function(e){
+      	console.log('editObjsChanged', e);
+      });
+	    chemEditorUi.on('editObjsUpdated1', function(e){
+		    console.log('editObjsUpdated', e);
+	    });
+	    chemEditorUi.on('operChange', function(e){
+		    console.log('operChange', e);
+	    });
+
+      chemEditorUi.on('selectionChange', function(e){
+        console.log('selectionChange', chemEditorUi.getSelection());
+      });
+
+      /*
+      chemEditorUi.on('hoverOnObjs', function(e){
+        console.log('hoverOnObjs', e.objs);
+      });
+      */
+
+      /*
+	    var elem = chemEditorUi.getEditor().getElement();
+      Kekule.X.Event.addListener(elem, 'pointermove', function(e) {
+        var offsetCoord = e.getOffsetCoord(true);
+        //var elemPos = Kekule.HtmlElementUtils.getElemPagePos(elem);
+        //var coord = Kekule.CoordUtils.substract(offsetCoord, elemPos);
+
+        var obj = chemEditorUi.getEditor().getTopmostBasicObjectAtCoord(offsetCoord);
+        if (obj)
+          console.log(obj.getClassName(), obj.getId());
+
+        var markers = chemEditor.getUiMarkersAtCoord(offsetCoord);
+        if (markers.length)
+          console.log(markers[0]);
+      });
+      */
+
+
+      // debug
+			/*
+			chemEditorUi.setEnableCreateNewDoc(false);
+			chemEditorUi.setEnableLoadNewFile(false);
+			chemEditorUi.setAllowCreateNewChild(false);
+
+			chemEditorUi.setChemObj(new Kekule.Molecule(null, null, true));
+			*/
+
+
+      /*
+      Kekule.X.Event.addListener(document.body, 'mousedown', function(e) {
+        console.log('-----------------');
+        console.log(e.getTarget().tagName);
+        console.log(e.getCurrentTarget().tagName);
+        console.log('-----------------');
+      });
+      */
+
+      var elem = document.getElementById('operHis');
+      operHistoryView = new Kekule.Widget.OperHistoryTreeView(elem, chemEditor.getOperHistory());
+      operHistoryView.setItemInitialExpanded(true);
+
+      var selBox = Kekule.Widget.getWidgetById('selPredefineSettings');
+      selBox.setItems([
+        {'text': 'fullFunc', 'value': 'fullFunc'},
+        {'text': 'molOnly', 'value': 'molOnly'},
+        {'text': 'compact', 'value': 'compact'}
+      ]);
+      selBox.on('valueChange', function(e){
+        var v = selBox.getValue();
+        chemEditorUi.setPredefinedSetting(v);
+      });
+
+      var btnAutofit = Kekule.Widget.getWidgetById('btnAutofit');
+      btnAutofit.on('execute', function(e){
+        var objBox = chemEditor.getObjectsContainerBox(chemEditor.getChemSpace().getChildren());
+        var visualBox = chemEditor.getVisibleClientScreenBox();
+        if (objBox && visualBox)
+        {
+          var sx = (visualBox.x2 - visualBox.x1) / (objBox.x2 - objBox.x1);
+          var sy = (visualBox.y2 - visualBox.y1) / (objBox.y2 - objBox.y1);
+          var ratio = Math.min(sx, sy);
+          if (ratio < 1)
+          {
+            chemEditor.setZoom(chemEditor.getCurrZoom() * ratio);
+            chemEditor.scrollClientToObject(chemEditor.getChemSpace().getChildren());
+          }
+        }
+      });
+    }
+
+    function requestFullScreen()
+    {
+      var elem = chemEditorUi.getElement();
+      var func = elem.requestFullScreen || elem.mozRequestFullScreen || elem.webkitRequestFullScreen || elem.msRequestFullScreen;
+      if (func)
+        func.apply(elem);
+    }
+
+    function openObjInViewer()
+    {
+      var chemObj = chemEditor.getSavingTargetObj();
+      if (chemObj)
+      {
+        console.log(chemObj.getClassName());
+        console.log(Kekule.Render.ObjUtils.getContainerBox(chemObj, Kekule.CoordMode.COORD2D, true));
+        var viewer = Kekule.Widget.getWidgetById('chemViewer');
+        viewer.setAutoSize(true).setChemObj(chemObj);
+      }
+    }
+    function openDocInViewer()
+    {
+      var chemObj = chemEditor.getChemObj();
+      if (chemObj)
+      {
+        var viewer = Kekule.Widget.getWidgetById('chemViewer');
+        viewer.setAutoSize(true).setChemObj(chemObj);
+      }
+    }
+
+    function setCustomChemButtons()
+    {
+      var BNS = Kekule.ChemWidget.ComponentWidgetNames;
+      var chemButtons = [
+        BNS.manipulate,
+        BNS.erase,
+        {'name': BNS.molBond, 'attached': [BNS.molBondSingle, BNS.molBondDouble, BNS.molRing6]},
+        BNS.molRing,
+        BNS.molAtom,
+        BNS.molFormula,
+        //BNS.molCharge,
+        //BNS.glyph,
+        //BNS.textImage
+        BNS.textBlock,
+        BNS.imageBlock
+      ];
+      chemEditorUi.setChemToolButtons(chemButtons);
+    }
+    function setCustomChemButtons2()
+    {
+      var BNS = Kekule.ChemWidget.ComponentWidgetNames;
+      var chemButtons = [
+        BNS.manipulate,
+        BNS.erase,
+        BNS.molBond,
+        BNS.molRing,
+        BNS.molAtom,
+        BNS.molFormula,
+        //BNS.molCharge,
+        //BNS.glyph,
+        //BNS.textImage
+        BNS.textBlock,
+        BNS.imageBlock
+      ];
+      chemEditorUi.setChemToolButtons(chemButtons);
+    }
+
+    Kekule.X.domReady(init);
+  </script>
+</head>
+<body onload1="init()" onpageshow="console.log('chem editor page show');">
+  <div>
+    <select id="selPredefineSettings" data-widget="Kekule.Widget.SelectBox"></select>
+    <button id="btnAutofit" data-widget="Kekule.Widget.Button" data-text="Autofit"></button>
+  </div>
+  <div id="chemEditorUi" style="width:800px;height:400px;transform1:scale(0.8) skewX(20deg);transform-origin:0 0" data-resizable="true"></div>
+  <div id="operHis" style="width:400px;height:600px;float:right"></div>
+  <div id="chemViewer" style="border: 1px solid #ccc;float:right" data-widget="Kekule.ChemWidget.Viewer2D"></div>
+</body>
+</html>
