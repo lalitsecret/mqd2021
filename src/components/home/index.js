@@ -3,7 +3,7 @@ import './index.css'
 import Navbar from '../common/navbar'
 import Button from '../common/button'
 import Input from '../common/input'
-
+import I from '../common/i'
 class Home extends React.Component
 {
 	handleChange()
@@ -19,13 +19,13 @@ class Home extends React.Component
 			<div className="left">
 				<div className="icon">
 					<img src="/assets/upload-workbook.PNG" alt=""/>	
-					<h5>new user</h5>
+					<h5>upload new Work book <I title="upload new work book" /></h5>
 				</div>
 				<div className="form-group">
 					<strong>Upload Image</strong>
 					<div className="flex">
-						<input placeholder="no image selected " onClick={this.handleChange.bind(this)} />
-						<Button>Browse</Button>
+						<input placeholder="no image selected "/>
+						<Button  onClick={this.handleChange.bind(this)} >Browse</Button>
 					</div>
 					<div className="flex">
 						<small>Supported file type</small>	
@@ -45,7 +45,7 @@ class Home extends React.Component
 			<div className="right">
 				<div className="icon">
 					<img src="/assets/create-workbook.PNG" alt=""/>	
-					<h5>existing user</h5>
+					<h5>upload new Work book <I title="upload new work book" /></h5>
 					
 				</div>
 				<div className="form-group">

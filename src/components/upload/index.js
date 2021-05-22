@@ -4,6 +4,7 @@ import Navbar from '../common/navbar'
 import Button from '../common/button'
 import Input from '../common/input'
 import Feedback from '../common/feedback'
+import * as $ from 'jquery'
 import I from '../common/i'
 class Upload extends React.Component
 {
@@ -24,11 +25,10 @@ class Upload extends React.Component
 	return <div>
 		<Feedback onClose={e=>this.setState({status:false})} status={status} />
 		<Navbar {...this.props}/>
-		<div className="upload-flex">
+		<div className="upload-flex" style={{padding:"2%"}}>
 			<div className="title">Chemical Reaction</div>
 			<div className="image">
-				<img src="/assets/chemical-reaction.PNG" alt=""/>
-				<div className="overlay"></div>
+				<img id="image" src="/assets/chemical-reaction.PNG" alt=""/>
 				<div className="note">
 					<i className="fa fa-file"></i> Get Math Ml
 				</div>	
@@ -52,7 +52,7 @@ class Upload extends React.Component
 				</div>
 			</div>
 			<div className="equation">
-				<img src="/assets/formula.PNG" alt=""/>
+				<img className="preview" src="/assets/chemical-reaction.PNG" alt=""/>
 				<div className="edit">	
 					<i className="fa fa-pen"></i> Edit
 				</div>

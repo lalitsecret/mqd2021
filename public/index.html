@@ -40,6 +40,100 @@
 	<div id="may20">
 		
 	</div>
+
+	<script type="text/javascript" src="js/hammer.min.js"></script>  	
+		<script type="text/javascript" src="js/download.js"></script>
+		<script type="text/javascript" src="js/en-US.js"></script>
+		<script type="text/javascript" src="js/fet_vsp.js"></script>
+		<script type="text/javascript" src="js/fet_vsparms.js"></script>
+		<script type="text/javascript" src="js/cktsimvsp_sn.js"></script>
+		<script type="text/javascript" src="js/schematic.js"></script>
+		<script src="https://kit.fontawesome.com/9defb49fb8.js"></script>
+
+		<link rel="icon" href="./favicon.ico" type="image/x-icon">
+		<link rel="canonical" href="https://spinningnumbers.org/circuit-sandbox/">
+		<link rel="stylesheet" href="sandbox.css">
+
+	<div id="circuit">
+		
+	</div>	
+
+	<link rel="stylesheet" href="css/cropper.css">
+	<style>
+		#image
+		{
+			width: 800px;
+		}
+		.preview
+		{
+			width: 800px;
+			height: 200px;
+		}
+	</style>
+	<script src="js/cropper.js"></script>
+	<script>
+	  function each(arr, callback) {
+	    var length = arr.length;
+	    var i;
+
+	    for (i = 0; i < length; i++) {
+	      callback.call(arr, arr[i], i, arr);
+	    }
+
+	    return arr;
+	  }
+
+	  window.addEventListener('DOMContentLoaded', function () {
+	    var image = document.querySelector('#image');
+	    var previews = document.querySelectorAll('.preview');
+	    var previewReady = false;
+	    var cropper = new Cropper(image, {
+	        ready: function () {
+	          var clone = this.cloneNode();
+
+	          clone.className = '';
+	          clone.style.cssText = (
+	            'display: block;' +
+	            'width: 100%;' +
+	            'min-width: 0;' +
+	            'min-height: 0;' +
+	            'max-width: none;' +
+	            'max-height: none;'
+	          );
+
+	          each(previews, function (elem) {
+	            elem.appendChild(clone.cloneNode());
+	          });
+	          previewReady = true;
+	        },
+
+	        crop: function (event) {
+	          if (!previewReady) {
+	            return;
+	          }
+
+	          var data = event.detail;
+	          var cropper = this.cropper;
+	          var imageData = cropper.getImageData();
+	          var previewAspectRatio = data.width / data.height;
+
+	          each(previews, function (elem) {
+	            var previewImage = elem.getElementsByTagName('img').item(0);
+	            var previewWidth = elem.offsetWidth;
+	            var previewHeight = previewWidth / previewAspectRatio;
+	            var imageScaledRatio = data.width / previewWidth;
+
+	            elem.style.height = previewHeight + 'px';
+	            previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px';
+	            previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px';
+	            previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px';
+	            previewImage.style.marginTop = -data.y / imageScaledRatio + 'px';
+	          });
+	        },
+	      });
+	  });
+	</script>
+	
 <!-- <math-field id="mf" virtual-keyboard-mode="manual">f(x)=</math-field>
 <div id="output"></div> -->
 <!-- <script type="module">

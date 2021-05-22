@@ -2,6 +2,7 @@
 {
 	position: relative;
 	/*display: flex;*/
+	padding: 2%;
 }
 .upload-flex .title
 {
@@ -70,7 +71,7 @@
 
 .upload-flex .form-group
 {
-	margin-top: 50px;
+	margin-top: 10px;
 }
 
 .upload-flex .form-flex
